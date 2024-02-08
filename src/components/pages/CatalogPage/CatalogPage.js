@@ -1,6 +1,11 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 
+import Select from 'react-select';
+// import { nanoid } from 'nanoid';
+
+
+
 import { fetchHome } from '../../../api';
 import { HomeList } from './CatalogPageList';
 import { Loader } from '../../LoaderSpinner/LoaderSpinner';
@@ -22,24 +27,46 @@ const CatalogPage = () => {
     perPage: 12,
   });
 
-  const [makes, setMakes] = useState([]);
+  
+  const [makesArray] = useState([
+    'Buick',
+    'Volvo',
+    'HUMMER',
+    'Subaru',
+    'Mitsubishi',
+    'Nissan',
+    'Lincoln',
+    'GMC',
+    'Hyundai',
+    'MINI',
+    'Bentley',
+    'Mercedes-Benz',
+    'Aston Martin',
+    'Pontiac',
+    'Lamborghini',
+    'Audi',
+    'BMW',
+    'Chevrolet',
+    'Mercedes-Benz',
+    'Chrysler',
+    'Kia',
+    'Land',
+  ]);
+    
+  const [selectedMake, setSelectedMake] = useState(null);  
 
-  useEffect(() => {
-    console.log('Fetching makes...');
+  const formattedOptions = makesArray => {
+    return makesArray.map(make => ({ value: make, label: make }));
+  };
 
-    const fetchMakes = async () => {
-      try {
-        const response = await fetch('/path/to/makes.json');
-        const data = await response.json();
-        setMakes(data.makes);
-        console.log('Makes loaded:', data.makes);
-      } catch (error) {
-        console.error('Error fetching makes:', error);
-      }
-    };
-
-    fetchMakes();
-  }, []);
+  const handleMakeChange = selectedOption => {
+    console.log('Selected value:', selectedOption);
+    setSelectedMake(selectedOption ? selectedOption.value : null);
+    setFilters(prevFilters => ({
+      ...prevFilters,
+      make: selectedOption ? selectedOption.value : '',
+    }));
+  };
 
   const openModal = index => {
     setModalVisible(true);
@@ -108,40 +135,26 @@ const CatalogPage = () => {
   return (
     <>
       {loader && <Loader />}
-      <div>
-        {/* <label>
-          Make:
-          <input
-            type="text"
-            value={filters.make}
-            onChange={e =>
-              setFilters(prevFilters => ({
-                ...prevFilters,
-                make: e.target.value,
-              }))
-            }
+      
+      <div>       
+        
+        <div>
+          <label htmlFor="makeSelect">Car Brand:</label>
+          <Select
+            id="makeSelect"
+            options={formattedOptions(makesArray)}
+            value={formattedOptions(makesArray).find(
+              option => option.value === selectedMake
+            )}
+            onChange={handleMakeChange}
+            isClearable={true}
+            isSearchable={true}
+            placeholder="Select Car Brand"
           />
-        </label> */}
-        <label>
-          Make:
-          <select
-            value={filters.make}
-            onChange={e =>
-              setFilters(prevFilters => ({
-                ...prevFilters,
-                make: e.target.value,
-              }))
-            }
-          >
-            console.log("make", make);
-            <option value="">Select Make</option>
-            {makes.map(make => (
-              <option key={make} value={make}>
-                {make}
-              </option>
-            ))}
-          </select>
-        </label>
+          
+        </div>
+
+        {console.log('make', filters)}
         <label>
           Price:
           <input
