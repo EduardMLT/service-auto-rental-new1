@@ -1,15 +1,9 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
-
 import Select from 'react-select';
-// import { nanoid } from 'nanoid';
-
-
-
 import { fetchHome } from '../../../api';
 import { HomeList } from './CatalogPageList';
 import { Loader } from '../../LoaderSpinner/LoaderSpinner';
-
 import Modal from '../../../components/Modal/Modal';
 
 const CatalogPage = () => {
@@ -27,7 +21,8 @@ const CatalogPage = () => {
     perPage: 12,
   });
 
-  
+  const [error, setError] = useState('');
+
   const [makesArray] = useState([
     'Buick',
     'Volvo',
@@ -46,26 +41,37 @@ const CatalogPage = () => {
     'Lamborghini',
     'Audi',
     'BMW',
-    'Chevrolet',
-    'Mercedes-Benz',
-    'Chrysler',
+    'Chevrolet',        
     'Kia',
-    'Land',
+    'Land Rover',
   ]);
-    
-  const [selectedMake, setSelectedMake] = useState(null);  
+
+  const [selectedMake, setSelectedMake] = useState(null);
 
   const formattedOptions = makesArray => {
     return makesArray.map(make => ({ value: make, label: make }));
   };
 
   const handleMakeChange = selectedOption => {
-    console.log('Selected value:', selectedOption);
     setSelectedMake(selectedOption ? selectedOption.value : null);
     setFilters(prevFilters => ({
       ...prevFilters,
       make: selectedOption ? selectedOption.value : '',
     }));
+    setTrends([]);
+  };
+
+  const handleChange = e => {
+    const value = e.target.value;
+    if (!/^\d*$/.test(value)) {
+      setError('Please enter a valid number');
+    } else {
+      setError('');
+      setFilters(prevFilters => ({
+        ...prevFilters,
+        minMileage: value,
+      }));
+    }
   };
 
   const openModal = index => {
@@ -95,66 +101,61 @@ const CatalogPage = () => {
     }
   };
 
-  const applyFilters = async () => {
-    setLoader(true);
-    try {
-      const filteredItems = await fetchHome(1, filters);
-      setTrends(filteredItems);
-      setPage(1);
-      setIsLastPage(false);
-    } catch (error) {
-      toast.error(error);
-    } finally {
-      setLoader(false);
-    }
-  };
-
-  const getMovies = useCallback(async () => {
-    setLoader(true);
-    try {
-      console.log('getMovies - filters ', { filters });
-      const movies = await fetchHome(1, filters);
-      if (movies.length === 0) {
-        console.log('1.1 -getMovies  ');
-        setIsLastPage(true);
-      } else {
-        console.log('1.2 -getMovies  ');
-        setTrends(movies);
+    const applyFilters = async () => {
+      setLoader(true);
+      try {
+        const filteredItems = await fetchHome(1, filters);
+         console.log('CatalogPage - applyFilters ', { filteredItems });
+        setTrends(filteredItems);
+        setPage(1);
+        setIsLastPage(false);
+      } catch (error) {
+        toast.error(error);
+      } finally {
+        setLoader(false);
       }
-    } catch (error) {
-      toast.error(error);
-    } finally {
-      setLoader(false);
-    }
-  }, [setLoader, setIsLastPage, setTrends, filters]);
+    };
 
   useEffect(() => {
-    getMovies();
-  }, [getMovies]);
+    const fetchData = async () => {
+      setLoader(true);
+      try {
+        const filteredItems = await fetchHome(1, filters);
+        setTrends(filteredItems);
+        setPage(1);
+        setIsLastPage(false);
+      } catch (error) {
+        toast.error(error);
+      } finally {
+        setLoader(false);
+      }
+    };
+
+    fetchData();
+  }, [filters]);
 
   return (
     <>
       {loader && <Loader />}
-      
-      <div>       
-        
+
+      <div>
         <div>
-          <label htmlFor="makeSelect">Car Brand:</label>
-          <Select
-            id="makeSelect"
-            options={formattedOptions(makesArray)}
-            value={formattedOptions(makesArray).find(
-              option => option.value === selectedMake
-            )}
-            onChange={handleMakeChange}
-            isClearable={true}
-            isSearchable={true}
-            placeholder="Select Car Brand"
-          />
-          
+          <label htmlFor="makeSelect">
+            Car Brand:
+            <Select
+              id="makeSelect"
+              options={formattedOptions(makesArray)}
+              value={formattedOptions(makesArray).find(
+                option => option.value === selectedMake
+              )}
+              onChange={handleMakeChange}
+              isClearable={true}
+              isSearchable={true}
+              placeholder="Select Car Brand"
+            />
+          </label>
         </div>
 
-        {console.log('make', filters)}
         <label>
           Price:
           <input
@@ -173,14 +174,13 @@ const CatalogPage = () => {
           <input
             type="number"
             value={filters.minMileage}
-            onChange={e =>
-              setFilters(prevFilters => ({
-                ...prevFilters,
-                minMileage: e.target.value,
-              }))
-            }
+            onChange={handleChange}
+            min="0"
+            max="9999"
           />
+          {error && <div style={{ color: 'red' }}>{error}</div>}
         </label>
+        {error && <div style={{ color: 'red' }}>{error}</div>}
         <label>
           Max Mileage:
           <input
@@ -192,6 +192,8 @@ const CatalogPage = () => {
                 maxMileage: e.target.value,
               }))
             }
+            pattern="[0-9]*"
+            maxLength="4"
           />
         </label>
         <button onClick={applyFilters}>Search</button>

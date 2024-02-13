@@ -5,7 +5,10 @@ import { AppLayout } from "./AppLayout";
 
 const HomePage = lazy(() => import("./pages/HomePage/HomePage"));
 const CatalogPage = lazy(() => import("./pages/CatalogPage/CatalogPage"));
-// const FavoritePage = lazy(() => import("./pages/FavoritePage/FavoritePage"));
+const CalculatorPage = lazy(() =>
+  import('./pages/CalculatorPage/CalculatorPage')
+);
+
 
 
 export const App = () => {
@@ -14,7 +17,7 @@ export const App = () => {
       <Route path="/" element={<AppLayout />}>
         <Route index element={<HomePage />} />
         <Route path="catalog" element={<CatalogPage />} />
-        {/* <Route path="favorite" element={<FavoritePage />} /> */}
+        <Route path="calculator" element={<CalculatorPage />} />
       </Route>
       <Route path="*" element={<HomePage />} />
     </Routes>
