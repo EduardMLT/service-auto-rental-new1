@@ -10,6 +10,8 @@ export const GlobalStyle = createGlobalStyle`
   --pr-input-background-color: #f7f7fb;
   --pr-button-background-color: #3470ff;
   --hovered-button-background-color: #0b44cd;
+  --font-family: "Manrope", sans-serif;
+  --second-family: "Inter", sans-serif;
 }
 
   body {
