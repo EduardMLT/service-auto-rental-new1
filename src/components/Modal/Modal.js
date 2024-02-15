@@ -10,6 +10,7 @@ import {
   ModalAccess,
   ModalRental,
   ModalRentalSpan,
+  ModalRentalSpan1,
   ModalRentalDiv1,
   ModalRentalDiv2,
   ModalSpanTtd,
@@ -32,6 +33,18 @@ const Modal = ({ item, closeModal }) => {
   useEffect(() => {
     getImageSize(item.img);
   }, [item.img]);
+
+  const parseRentalConditions = rentalConditions => {
+    const conditionsArray = rentalConditions.split('\n'); 
+    const minimumAge = conditionsArray[0].split(':')[0]; 
+    const ageValue = conditionsArray[0].split(':')[1]; 
+console.log({minimumAge}, {ageValue}, {conditionsArray});
+    return { minimumAge, ageValue, conditionsArray };
+  };
+
+  const { minimumAge, ageValue, conditionsArray } = parseRentalConditions(
+    item.rentalConditions
+  );
 
   return (
     <ModalOverlay>
@@ -83,13 +96,19 @@ const Modal = ({ item, closeModal }) => {
         <ModalRental>
           <ModalH3acc>Rental Conditions:</ModalH3acc>
           <ModalRentalDiv1>
-            <ModalRentalSpan>Minimum age : </ModalRentalSpan>
-            <ModalRentalSpan>Valid driver’s license</ModalRentalSpan>
+            <ModalRentalSpan>
+              {minimumAge} : {ageValue}
+            </ModalRentalSpan>
+            <ModalRentalSpan>{conditionsArray[1]}</ModalRentalSpan>
           </ModalRentalDiv1>
           <ModalRentalDiv2>
-            <ModalRentalSpan>Security deposite required</ModalRentalSpan>
-            <ModalRentalSpan>Mileage: </ModalRentalSpan>
-            <ModalRentalSpan>Price: </ModalRentalSpan>
+            <ModalRentalSpan>{conditionsArray[2]}</ModalRentalSpan>
+            <ModalRentalSpan>
+              Mileage: <ModalRentalSpan1>{item.mileage}</ModalRentalSpan1>
+            </ModalRentalSpan>
+            <ModalRentalSpan>
+              Price: <ModalRentalSpan1>{item.rentalPrice}</ModalRentalSpan1>
+            </ModalRentalSpan>
           </ModalRentalDiv2>
         </ModalRental>
         <ModalButton onClick={() => {}}>Rental car</ModalButton>

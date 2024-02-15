@@ -157,6 +157,13 @@ export const ModalRentalSpan = styled.span`
   border-radius: 35px;
 `;
 
+export const ModalRentalSpan1 = styled.span`
+  font-weight: 600;
+  color: #3470ff;
+`;
+
+
+
 export const ModalRentalDiv1 = styled.div`
   margin-bottom: 8px;
 `;

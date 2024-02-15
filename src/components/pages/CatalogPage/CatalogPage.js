@@ -6,6 +6,8 @@ import { HomeList } from './CatalogPageList';
 import { Loader } from '../../LoaderSpinner/LoaderSpinner';
 import Modal from '../../../components/Modal/Modal';
 
+import { Container, CatalogPageButton } from './CatalogPage.styled';
+
 const CatalogPage = () => {
   const [trends, setTrends] = useState([]);
   const [loader, setLoader] = useState(false);
@@ -199,13 +201,17 @@ const CatalogPage = () => {
         <button onClick={applyFilters}>Search</button>
       </div>
 
-      <HomeList items={trends} openModal={openModal} />
-      {!isLastPage && <button onClick={loadMore}>Load More</button>}
-      {isLastPage && <p>This is the entire catalog.</p>}
-      {modalVisible && (
-        <Modal item={trends[selectedItemIndex]} closeModal={closeModal} />
-      )}
-      <Toaster position="bottom-center" reverseOrder={true} />
+      <Container>
+        <HomeList items={trends} openModal={openModal} />
+        {!isLastPage && (
+          <CatalogPageButton onClick={loadMore}>Load More</CatalogPageButton>
+        )}
+        {isLastPage && <p>This is the entire catalog.</p>}
+        {modalVisible && (
+          <Modal item={trends[selectedItemIndex]} closeModal={closeModal} />
+        )}
+        <Toaster position="bottom-center" reverseOrder={true} />
+      </Container>
     </>
   );
 };

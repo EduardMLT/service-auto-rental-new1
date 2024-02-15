@@ -58,6 +58,7 @@ button {
   text-decoration: none;
   font-family: inherit;
   color: inherit;
+  background: none;
 }
 
   img {
