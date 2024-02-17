@@ -18,25 +18,17 @@ export const ModalOverlay = styled.div`
 `;
 
 export const ModalContent = styled.div`
-  background: #fff;
-  /* padding: 20px; */
+  background: #fff;  
   border-radius: 8px;
   position: relative;
   z-index: 1001;
   max-width: 900px;
-  width: 100%;
-  /* text-align: center; */
-
-  /* img {
-    width: 461px;
-    height: 248px;
-    object-fit: contain;
-  } */
+  width: 100%;  
 `;
 
 export const ModalClose = styled.span`
   position: absolute;
-  top: 45px;
+  top: 22px;
   right: 22px;
   cursor: pointer;
   font-size: 22px;
@@ -45,11 +37,9 @@ export const ModalClose = styled.span`
 
 export const StyledImage = styled.img`
   max-width: 100%;
-  max-height: 100%;
-  /* object-fit: contain; */
+  max-height: 100%;  
   width: 461px;
-  height: 248px;
-  /* margin: auto; */
+  height: 248px; 
   margin-bottom: 14px;
   margin-top: 40px;
   display: block;
@@ -61,11 +51,9 @@ export const ModalH2 = styled.h2`
   font-weight: 500;
   font-size: 18px;
   line-height: 133%;
-  color: #121417;
-  /* display: flex; */
+  color: #121417;  
   text-align: left;
-  margin-bottom: 8px;
-  /* margin-left: 40px; */
+  margin-bottom: 8px;  
 `;
 
 export const ModalH2color = styled.span`
@@ -94,17 +82,15 @@ export const ModalTtd = styled.div`
   margin-left: 40px;
 `;
 
-export const ModalTtdDiv1 = styled.div`
-  /* display: flex; */
+export const ModalTtdDiv1 = styled.div`  
   text-align: left;
   margin-bottom: 4px;
-  /* margin-left: 40px; */
+  
 `;
 
 export const ModalTtdDiv2 = styled.div`
   text-align: left;
-  margin-bottom: 8px;
-  /* margin-left: 40px; */
+  margin-bottom: 8px;  
 `;
 
 export const ModalH3 = styled.h3`
@@ -114,8 +100,8 @@ export const ModalH3 = styled.h3`
   color: #121417;
   display: flex;
   text-align: left;
-  
-  /* margin-left: 40px; */
+  max-height: 40px; 
+  overflow: auto;
 `;
 
 export const ModalH3acc = styled.h3`
@@ -124,9 +110,7 @@ export const ModalH3acc = styled.h3`
   line-height: 143%;
   color: #121417;
   display: flex;
-  margin-bottom: 8px;
-  /* text-align: left;
-  margin-left: 40px; */
+  margin-bottom: 8px; 
 `;
 
 export const ModalAccess = styled.div`
@@ -162,8 +146,6 @@ export const ModalRentalSpan1 = styled.span`
   color: #3470ff;
 `;
 
-
-
 export const ModalRentalDiv1 = styled.div`
   margin-bottom: 8px;
 `;
@@ -172,20 +154,15 @@ export const ModalRentalDiv2 = styled.div`
   margin-bottom: 24px;
 `;
 
-
 export const ModalSpanTtd = styled.span`
   font-family: var(--font-family);
   font-weight: 400;
   font-size: 12px;
   line-height: 150%;
   color: rgba(18, 20, 23, 0.5);
-  
-  /* height: 18px; */
 `;
 
-export const ModalButton = styled.button`
-  /* height: 44px;
-  width: 168px; */
+export const ModalButton = styled.button`  
   margin-bottom: 40px;
   margin-left: 40px;
   border-radius: 12px;

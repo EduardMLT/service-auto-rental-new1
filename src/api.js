@@ -5,14 +5,13 @@ axios.defaults.baseURL = 'https://6574665df941bda3f2afb2f5.mockapi.io/api/v1/';
 export const fetchHome = async (page = 1, filters) => {
   try {
     const response = await axios.get('/data-auto');
-    console.log('fetchHome - filters', filters);
+    
     let filteredCars = response.data;
-    console.log('fetchHome - filteredCars', filteredCars);
-
+   
     if (filters.make !== '') {
-      console.log('fetchHome - filters.make', filters.make);
+      
       filteredCars = filteredCars.filter(car => car.make === filters.make);
-      console.log('fetchHome - filteredCars', filteredCars);
+      
     }
 
     if (filters.price !== '') {

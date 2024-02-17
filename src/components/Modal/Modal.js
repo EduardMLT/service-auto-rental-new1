@@ -35,16 +35,25 @@ const Modal = ({ item, closeModal }) => {
   }, [item.img]);
 
   const parseRentalConditions = rentalConditions => {
-    const conditionsArray = rentalConditions.split('\n'); 
-    const minimumAge = conditionsArray[0].split(':')[0]; 
-    const ageValue = conditionsArray[0].split(':')[1]; 
-console.log({minimumAge}, {ageValue}, {conditionsArray});
+    const conditionsArray = rentalConditions.split('\n');
+    const minimumAge = conditionsArray[0].split(':')[0];
+    const ageValue = conditionsArray[0].split(':')[1];    
     return { minimumAge, ageValue, conditionsArray };
   };
 
   const { minimumAge, ageValue, conditionsArray } = parseRentalConditions(
     item.rentalConditions
   );
+
+  const parseAddress = address => {
+    const addressArray = address.split(',');
+    const street = addressArray[0];
+    const city = addressArray[1];
+    const state = addressArray[2];
+    return { street, city, state };
+  };
+
+  const { city, state } = parseAddress(item.address);
 
   return (
     <ModalOverlay>
@@ -57,9 +66,9 @@ console.log({minimumAge}, {ageValue}, {conditionsArray});
             {item.make} <ModalH2color>{item.model}</ModalH2color> , {item.year}
           </ModalH2>
           <ModalTtdDiv1>
-            <ModalSpanTtd>Kiev</ModalSpanTtd>
+            <ModalSpanTtd>{city}</ModalSpanTtd>
             <StyledSVGImage src={VerticalTrait} alt="Vertical trait" />
-            <ModalSpanTtd>Ukraine</ModalSpanTtd>
+            <ModalSpanTtd>{state}</ModalSpanTtd>
             <StyledSVGImage src={VerticalTrait} alt="Vertical trait" />
             <ModalSpanTtd>ID: {item.id}</ModalSpanTtd>
             <StyledSVGImage src={VerticalTrait} alt="Vertical trait" />

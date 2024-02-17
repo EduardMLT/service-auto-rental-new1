@@ -8,7 +8,9 @@ import Modal from '../../../components/Modal/Modal';
 
 import { Container, CatalogPageButton } from './CatalogPage.styled';
 
-const CatalogPage = () => {
+const CatalogPage = ({ favorites, setFavorites }) => {
+  // const [favorites, setFavorites] = useState([]);
+
   const [trends, setTrends] = useState([]);
   const [loader, setLoader] = useState(false);
   const [page, setPage] = useState(1);
@@ -43,10 +45,19 @@ const CatalogPage = () => {
     'Lamborghini',
     'Audi',
     'BMW',
-    'Chevrolet',        
+    'Chevrolet',
     'Kia',
     'Land Rover',
   ]);
+
+  useEffect(() => {
+    const storedFavorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    setFavorites(storedFavorites);
+  }, []);
+
+  // useEffect(() => {
+  //   localStorage.setItem('favorites', JSON.stringify(favorites));
+  // }, [favorites]);
 
   const [selectedMake, setSelectedMake] = useState(null);
 
@@ -103,20 +114,20 @@ const CatalogPage = () => {
     }
   };
 
-    const applyFilters = async () => {
-      setLoader(true);
-      try {
-        const filteredItems = await fetchHome(1, filters);
-         console.log('CatalogPage - applyFilters ', { filteredItems });
-        setTrends(filteredItems);
-        setPage(1);
-        setIsLastPage(false);
-      } catch (error) {
-        toast.error(error);
-      } finally {
-        setLoader(false);
-      }
-    };
+  const applyFilters = async () => {
+    setLoader(true);
+    try {
+      const filteredItems = await fetchHome(1, filters);
+      console.log('CatalogPage - applyFilters ', { filteredItems });
+      setTrends(filteredItems);
+      setPage(1);
+      setIsLastPage(false);
+    } catch (error) {
+      toast.error(error);
+    } finally {
+      setLoader(false);
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -202,7 +213,13 @@ const CatalogPage = () => {
       </div>
 
       <Container>
-        <HomeList items={trends} openModal={openModal} />
+        <HomeList
+          items={trends}
+          openModal={openModal}
+          favorites={favorites}
+          setFavorites={setFavorites}
+          
+        />
         {!isLastPage && (
           <CatalogPageButton onClick={loadMore}>Load More</CatalogPageButton>
         )}

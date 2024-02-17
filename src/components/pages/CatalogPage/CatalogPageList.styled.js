@@ -10,19 +10,24 @@ export const List = styled.ul`
   margin: 50px 0 100px;
 `;
 
-export const Item = styled.li`
-  /* display: block;
-  padding: 10px, 15px;
-  font-family: Roboto sans-serif;
-  font-size: 22px;
-  font-weight: 700;
-  color: rgb(106 162 144); */
+export const Item = styled.li`  
   position: relative;
 `;
 
 export const ItemDiv = styled.div`
   width: 274px;
-  height: 426px;
+  height: 444px;
+`;
+
+export const ItemImg = styled.img`
+  border-radius: 14px;
+`;
+
+export const ItemImgHeart = styled.img`
+  cursor: pointer;
+  position: absolute;
+  top: 14px;
+  right: 14px;
 `;
 
 export const TitleSpan = styled.span`
@@ -115,11 +120,7 @@ export const PageSpanTtd = styled.span`
   /* height: 18px; */
 `;
 
-export const PageButton = styled.button`
-  /* height: 44px;
-  width: 168px; */
-  /* margin-bottom: 0px; */
-  /* margin-left: 40px; */
+export const PageButton = styled.button`  
   position: absolute;
   bottom: 0;
   border-radius: 12px;
@@ -127,8 +128,7 @@ export const PageButton = styled.button`
   width: 274px;
   height: 44px;
   background: #3470ff;
-
-  /* font-family: var(--font-family); */
+  
   font-weight: 600;
   font-size: 14px;
   line-height: 143%;
