@@ -53,7 +53,7 @@ const CatalogPage = ({ favorites, setFavorites }) => {
   useEffect(() => {
     const storedFavorites = JSON.parse(localStorage.getItem('favorites')) || [];
     setFavorites(storedFavorites);
-  }, []);
+  }, [setFavorites]);
 
   // useEffect(() => {
   //   localStorage.setItem('favorites', JSON.stringify(favorites));

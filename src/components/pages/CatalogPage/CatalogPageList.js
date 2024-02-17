@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 
-
 import {
   List,
   Item,
@@ -27,34 +26,19 @@ import heartOutline from '../../img/heartOutline.svg';
 
 export const HomeList = ({ items, openModal, favorites, setFavorites }) => {
   console.log('HomeList', { favorites });
-
-  useEffect(() => {
-    const storedFavorites = localStorage.getItem('favorites');
-    if (storedFavorites) {
-      setFavorites(JSON.parse(storedFavorites));
-    }
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem('favorites', JSON.stringify(favorites));
-  }, [favorites]);
-  
-
-  const toggleFavorite = id => {    
-    if (favorites.includes(id)) {      
-      setFavorites(favorites.filter(item => item !== id));
-    } else {      
-      setFavorites([...favorites, id]);      
-    }
-    localStorage.setItem('favorites', JSON.stringify(favorites));
-  };
-
+ 
   useEffect(() => {
     const storedFavorites = JSON.parse(localStorage.getItem('favorites')) || [];
     setFavorites(storedFavorites);
-  }, []);
+  }, [setFavorites]);
 
-  
+  const toggleFavorite = id => {
+    const updatedFavorites = favorites.includes(id)
+      ? favorites.filter(item => item !== id)
+      : [...favorites, id];
+    setFavorites(updatedFavorites);
+    localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+  };
 
   const parseAddress = address => {
     const addressArray = address.split(',');
