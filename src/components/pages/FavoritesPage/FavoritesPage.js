@@ -11,7 +11,7 @@ const FavoritesPage = ({ favorites, setFavorites }) => {
   const [loader, setLoader] = useState(true);
   const [favoriteCars, setFavoriteCars] = useState([]); 
 
-  const [filters, setFilters] = useState({
+  const [filters] = useState({
     id: '',
     make: '',
     price: '',
@@ -22,18 +22,19 @@ const FavoritesPage = ({ favorites, setFavorites }) => {
 
   console.log('1- ', { favorites });
 
+  
+
   useEffect(() => {
     const storedFavorites = JSON.parse(localStorage.getItem('favorites')) || [];
     setFavorites(storedFavorites);
   }, [setFavorites]);
 
   useEffect(() => {
-    
     const fetchFavoriteCars = async () => {
       try {
         const fetchedCars = await Promise.all(
           favorites.map(async id => {
-            const carData = await fetchHomeById(id); 
+            const carData = await fetchHomeById(id);
             console.log('2- ', { carData });
             return carData;
           })
@@ -47,14 +48,15 @@ const FavoritesPage = ({ favorites, setFavorites }) => {
     };
 
     fetchFavoriteCars();
+    // eslint-disable-next-line
   }, [favorites]);
-
+  
   const fetchHomeById = async id => {
     try {
       console.log('3- ', id);
       const response = await fetchHome(1, filters);
       console.log('4- ', { response });
-      const carData = response.find(car => car.id === id); 
+      const carData = response.find(car => car.id === id);
       console.log('5- ', { carData });
       return carData;
     } catch (error) {
@@ -62,7 +64,7 @@ const FavoritesPage = ({ favorites, setFavorites }) => {
       throw error;
     }
   };
-
+  
   const openModal = index => {
     setModalVisible(true);
     setSelectedItemIndex(index);
