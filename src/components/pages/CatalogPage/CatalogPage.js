@@ -4,12 +4,12 @@ import Select from 'react-select';
 import { fetchHome } from '../../../api';
 import { HomeList } from './CatalogPageList';
 import { Loader } from '../../LoaderSpinner/LoaderSpinner';
+import { GlobalStyle } from '../../GlobalStyle';
 import Modal from '../../../components/Modal/Modal';
 
 import { Container, CatalogPageButton } from './CatalogPage.styled';
 
-const CatalogPage = ({ favorites, setFavorites }) => {
-  // const [favorites, setFavorites] = useState([]);
+const CatalogPage = ({ favorites, setFavorites }) => {  
 
   const [trends, setTrends] = useState([]);
   const [loader, setLoader] = useState(false);
@@ -146,86 +146,89 @@ const CatalogPage = ({ favorites, setFavorites }) => {
 
   return (
     <>
-      {loader && <Loader />}
-
       <div>
+        <GlobalStyle />
+        {loader && <Loader />}
+
         <div>
-          <label htmlFor="makeSelect">
-            Car Brand:
-            <Select
-              id="makeSelect"
-              options={formattedOptions(makesArray)}
-              value={formattedOptions(makesArray).find(
-                option => option.value === selectedMake
-              )}
-              onChange={handleMakeChange}
-              isClearable={true}
-              isSearchable={true}
-              placeholder="Select Car Brand"
+          <div>
+            <label htmlFor="makeSelect">
+              Car Brand:
+              <Select
+                id="makeSelect"
+                options={formattedOptions(makesArray)}
+                value={formattedOptions(makesArray).find(
+                  option => option.value === selectedMake
+                )}
+                onChange={handleMakeChange}
+                isClearable={true}
+                isSearchable={true}
+                placeholder="Select Car Brand"
+              />
+            </label>
+          </div>
+
+          <label>
+            Price:
+            <input
+              type="text"
+              value={filters.price}
+              onChange={e =>
+                setFilters(prevFilters => ({
+                  ...prevFilters,
+                  price: e.target.value,
+                }))
+              }
             />
           </label>
+          <label>
+            Min Mileage:
+            <input
+              type="number"
+              value={filters.minMileage}
+              onChange={handleChange}
+              min="0"
+              max="9999"
+            />
+            {error && <div style={{ color: 'red' }}>{error}</div>}
+          </label>
+          {error && <div style={{ color: 'red' }}>{error}</div>}
+          <label>
+            Max Mileage:
+            <input
+              type="number"
+              value={filters.maxMileage}
+              onChange={e =>
+                setFilters(prevFilters => ({
+                  ...prevFilters,
+                  maxMileage: e.target.value,
+                }))
+              }
+              pattern="[0-9]*"
+              maxLength="4"
+            />
+          </label>
+          <button onClick={applyFilters}>Search</button>
         </div>
 
-        <label>
-          Price:
-          <input
-            type="text"
-            value={filters.price}
-            onChange={e =>
-              setFilters(prevFilters => ({
-                ...prevFilters,
-                price: e.target.value,
-              }))
-            }
+        <Container>
+          <HomeList
+            items={trends}
+            openModal={openModal}
+            favorites={favorites}
+            setFavorites={setFavorites}
           />
-        </label>
-        <label>
-          Min Mileage:
-          <input
-            type="number"
-            value={filters.minMileage}
-            onChange={handleChange}
-            min="0"
-            max="9999"
-          />
-          {error && <div style={{ color: 'red' }}>{error}</div>}
-        </label>
-        {error && <div style={{ color: 'red' }}>{error}</div>}
-        <label>
-          Max Mileage:
-          <input
-            type="number"
-            value={filters.maxMileage}
-            onChange={e =>
-              setFilters(prevFilters => ({
-                ...prevFilters,
-                maxMileage: e.target.value,
-              }))
-            }
-            pattern="[0-9]*"
-            maxLength="4"
-          />
-        </label>
-        <button onClick={applyFilters}>Search</button>
-      </div>
+          {!isLastPage && (
+            <CatalogPageButton onClick={loadMore}>Load More</CatalogPageButton>
+          )}
+          {isLastPage && <p>This is the entire catalog.</p>}
 
-      <Container>
-        <HomeList
-          items={trends}
-          openModal={openModal}
-          favorites={favorites}
-          setFavorites={setFavorites}
-          
-        />
-        {!isLastPage && (
-          <CatalogPageButton onClick={loadMore}>Load More</CatalogPageButton>
-        )}
-        {isLastPage && <p>This is the entire catalog.</p>}
-        {modalVisible && (
-          <Modal item={trends[selectedItemIndex]} closeModal={closeModal} />
-        )}
-        <Toaster position="bottom-center" reverseOrder={true} />
-      </Container>
+          {modalVisible && (
+            <Modal item={trends[selectedItemIndex]} closeModal={closeModal} />
+          )}
+          <Toaster position="bottom-center" reverseOrder={true} />
+        </Container>
+      </div>
     </>
   );
 };

@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react';
+
 import {
   ModalOverlay,
   ModalContent,
+  ModalWindow,
   ModalClose,
   StyledImage,
   ModalTtd,
@@ -24,7 +26,8 @@ import {
 
 import VerticalTrait from '../img/verticalTrait.svg';
 
-const Modal = ({ item, closeModal }) => {
+const Modal = ({ item, closeModal }) => {  
+
   const getImageSize = url => {
     const img = new Image();
     img.src = url;
@@ -56,71 +59,75 @@ const Modal = ({ item, closeModal }) => {
   const { city, state } = parseAddress(item.address);
 
   return (
-    <ModalOverlay>
+    <ModalOverlay>      
       <ModalContent>
-        <ModalClose onClick={closeModal}>&times;</ModalClose>
+        <ModalWindow>
+          <ModalClose onClick={closeModal}>&times;</ModalClose>
 
-        <StyledImage src={item.img} alt="car" />
-        <ModalTtd>
-          <ModalH2>
-            {item.make} <ModalH2color>{item.model}</ModalH2color> , {item.year}
-          </ModalH2>
-          <ModalTtdDiv1>
-            <ModalSpanTtd>{city}</ModalSpanTtd>
-            <StyledSVGImage src={VerticalTrait} alt="Vertical trait" />
-            <ModalSpanTtd>{state}</ModalSpanTtd>
-            <StyledSVGImage src={VerticalTrait} alt="Vertical trait" />
-            <ModalSpanTtd>ID: {item.id}</ModalSpanTtd>
-            <StyledSVGImage src={VerticalTrait} alt="Vertical trait" />
-            <ModalSpanTtd>Year: {item.year}</ModalSpanTtd>
-            <StyledSVGImage src={VerticalTrait} alt="Vertical trait" />
-            <ModalSpanTtd>Type: {item.type}</ModalSpanTtd>
-          </ModalTtdDiv1>
-          <ModalTtdDiv2>
-            <ModalSpanTtd>
-              Fuel Consumption: {item.fuelConsumption}
-            </ModalSpanTtd>
-            <StyledSVGImage src={VerticalTrait} alt="Vertical trait" />
-            <ModalSpanTtd>Engine Size: {item.engineSize}</ModalSpanTtd>
-          </ModalTtdDiv2>
-          <ModalH3>{item.description}</ModalH3>
-        </ModalTtd>
-        <ModalAccess>
-          <ModalH3acc>Accessories and functionalities:</ModalH3acc>
-          <ModalTtdDiv1>
-            <ModalSpanTtd>{item.accessories[0]}</ModalSpanTtd>
-            <StyledSVGImage src={VerticalTrait} alt="Vertical trait" />
-            <ModalSpanTtd>{item.accessories[1]}</ModalSpanTtd>
-            <StyledSVGImage src={VerticalTrait} alt="Vertical trait" />
-            <ModalSpanTtd>{item.accessories[2]}</ModalSpanTtd>
-          </ModalTtdDiv1>
-          <ModalTtdDiv1>
-            <ModalSpanTtd>{item.functionalities[0]}</ModalSpanTtd>
-            <StyledSVGImage src={VerticalTrait} alt="Vertical trait" />
-            <ModalSpanTtd>{item.functionalities[1]}</ModalSpanTtd>
-            <StyledSVGImage src={VerticalTrait} alt="Vertical trait" />
-            <ModalSpanTtd>{item.functionalities[2]}</ModalSpanTtd>
-          </ModalTtdDiv1>
-        </ModalAccess>
-        <ModalRental>
-          <ModalH3acc>Rental Conditions:</ModalH3acc>
-          <ModalRentalDiv1>
-            <ModalRentalSpan>
-              {minimumAge} : {ageValue}
-            </ModalRentalSpan>
-            <ModalRentalSpan>{conditionsArray[1]}</ModalRentalSpan>
-          </ModalRentalDiv1>
-          <ModalRentalDiv2>
-            <ModalRentalSpan>{conditionsArray[2]}</ModalRentalSpan>
-            <ModalRentalSpan>
-              Mileage: <ModalRentalSpan1>{item.mileage}</ModalRentalSpan1>
-            </ModalRentalSpan>
-            <ModalRentalSpan>
-              Price: <ModalRentalSpan1>{item.rentalPrice}</ModalRentalSpan1>
-            </ModalRentalSpan>
-          </ModalRentalDiv2>
-        </ModalRental>
-        <ModalButton onClick={() => {}}>Rental car</ModalButton>
+          <StyledImage src={item.img} alt="car" />
+          <ModalTtd>
+            <ModalH2>
+              {item.make} <ModalH2color>{item.model}</ModalH2color> ,{' '}
+              {item.year}
+            </ModalH2>
+            <ModalTtdDiv1>
+              <ModalSpanTtd>{city}</ModalSpanTtd>
+              <StyledSVGImage src={VerticalTrait} alt="Vertical trait" />
+              <ModalSpanTtd>{state}</ModalSpanTtd>
+              <StyledSVGImage src={VerticalTrait} alt="Vertical trait" />
+              <ModalSpanTtd>ID: {item.id}</ModalSpanTtd>
+              <StyledSVGImage src={VerticalTrait} alt="Vertical trait" />
+              <ModalSpanTtd>Year: {item.year}</ModalSpanTtd>
+              <StyledSVGImage src={VerticalTrait} alt="Vertical trait" />
+              <ModalSpanTtd>Type: {item.type}</ModalSpanTtd>
+            </ModalTtdDiv1>
+            <ModalTtdDiv2>
+              <ModalSpanTtd>
+                Fuel Consumption: {item.fuelConsumption}
+              </ModalSpanTtd>
+              <StyledSVGImage src={VerticalTrait} alt="Vertical trait" />
+              <ModalSpanTtd>Engine Size: {item.engineSize}</ModalSpanTtd>
+            </ModalTtdDiv2>
+            <ModalH3>{item.description}</ModalH3>
+          </ModalTtd>
+          <ModalAccess>
+            <ModalH3acc>Accessories and functionalities:</ModalH3acc>
+            <ModalTtdDiv1>
+              <ModalSpanTtd>{item.accessories[0]}</ModalSpanTtd>
+              <StyledSVGImage src={VerticalTrait} alt="Vertical trait" />
+              <ModalSpanTtd>{item.accessories[1]}</ModalSpanTtd>
+              <StyledSVGImage src={VerticalTrait} alt="Vertical trait" />
+              <ModalSpanTtd>{item.accessories[2]}</ModalSpanTtd>
+            </ModalTtdDiv1>
+            <ModalTtdDiv1>
+              <ModalSpanTtd>{item.functionalities[0]}</ModalSpanTtd>
+              <StyledSVGImage src={VerticalTrait} alt="Vertical trait" />
+              <ModalSpanTtd>{item.functionalities[1]}</ModalSpanTtd>
+              <StyledSVGImage src={VerticalTrait} alt="Vertical trait" />
+              <ModalSpanTtd>{item.functionalities[2]}</ModalSpanTtd>
+            </ModalTtdDiv1>
+          </ModalAccess>
+          <ModalRental>
+            <ModalH3acc>Rental Conditions:</ModalH3acc>
+            <ModalRentalDiv1>
+              <ModalRentalSpan>
+                {minimumAge} : {ageValue}
+              </ModalRentalSpan>
+              <ModalRentalSpan>{conditionsArray[1]}</ModalRentalSpan>
+            </ModalRentalDiv1>
+            <ModalRentalDiv2>
+              <ModalRentalSpan>{conditionsArray[2]}</ModalRentalSpan>
+              <ModalRentalSpan>
+                Mileage: <ModalRentalSpan1>{item.mileage}</ModalRentalSpan1>
+              </ModalRentalSpan>
+              <ModalRentalSpan>
+                Price: <ModalRentalSpan1>{item.rentalPrice}</ModalRentalSpan1>
+              </ModalRentalSpan>
+            </ModalRentalDiv2>
+          </ModalRental>
+          {/* <ModalButton onClick={() => {}}>Rental car</ModalButton> */}
+          <ModalButton href="tel:+380730000000">Rental car</ModalButton>
+        </ModalWindow>
       </ModalContent>
     </ModalOverlay>
   );

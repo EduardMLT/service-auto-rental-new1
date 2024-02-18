@@ -5,25 +5,34 @@ import styled from 'styled-components';
 export const ModalOverlay = styled.div`
   position: fixed;
   top: 0;
-  left: calc((100% - 541px) / 2);
-  width: 541px;
-  height: 752px;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
   font-family: var(--font-family);
-  border-radius: 24px;
+  
 `;
 
 export const ModalContent = styled.div`
   background: #fff;  
-  border-radius: 8px;
+  border-radius: 24px;
   position: relative;
   z-index: 1001;
-  max-width: 900px;
-  width: 100%;  
+  max-width: 541px;
+  width: 100%; 
+  height: 100%; 
+`;
+
+
+
+export const ModalWindow = styled.div`
+  left: calc((100% - 541px) / 2);
+  width: 541px;
+  height: 752px;
 `;
 
 export const ModalClose = styled.span`
@@ -162,7 +171,7 @@ export const ModalSpanTtd = styled.span`
   color: rgba(18, 20, 23, 0.5);
 `;
 
-export const ModalButton = styled.button`  
+export const ModalButton = styled.a`  
   margin-bottom: 40px;
   margin-left: 40px;
   border-radius: 12px;

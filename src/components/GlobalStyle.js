@@ -27,6 +27,12 @@ export const GlobalStyle = createGlobalStyle`
      margin: 0;
   }
 
+ 
+  body.openModal {
+    overflow: hidden;
+  }
+
+
   code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
       monospace;
