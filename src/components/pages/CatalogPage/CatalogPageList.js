@@ -25,12 +25,19 @@ import heartOutline from '../../img/heartOutline.svg';
 
 
 export const HomeList = ({ items, openModal, favorites, setFavorites }) => {
-  console.log('HomeList', { favorites });
+  console.log('HomeList', { items }, { favorites });
  
   useEffect(() => {
     const storedFavorites = JSON.parse(localStorage.getItem('favorites')) || [];
     setFavorites(storedFavorites);
   }, [setFavorites]);
+
+// useEffect(() => {
+//   const storedFavorites = JSON.parse(localStorage.getItem('favorites')) || [];
+//   if (!favorites || favorites.length === 0) {
+//     setFavorites(storedFavorites);
+//   }
+// }, [favorites, setFavorites]);
 
   const toggleFavorite = id => {
     const updatedFavorites = favorites.includes(id)
@@ -69,7 +76,8 @@ export const HomeList = ({ items, openModal, favorites, setFavorites }) => {
           const { city, state } = parseAddress(address);
           const isFavorite = favorites.includes(id);
           const heartIcon = isFavorite ? heartFilled : heartOutline;
-
+          console.log('HomeList-2', { items }, { favorites },
+          );
           return (
             <Item key={id}>
               <ItemDiv>

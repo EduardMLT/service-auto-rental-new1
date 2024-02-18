@@ -18,6 +18,7 @@ const CatalogPage = ({ favorites, setFavorites }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedItemIndex, setSelectedItemIndex] = useState(null);
   const [filters, setFilters] = useState({
+    id: '',
     make: '',
     price: '',
     minMileage: null,
@@ -54,10 +55,6 @@ const CatalogPage = ({ favorites, setFavorites }) => {
     const storedFavorites = JSON.parse(localStorage.getItem('favorites')) || [];
     setFavorites(storedFavorites);
   }, [setFavorites]);
-
-  // useEffect(() => {
-  //   localStorage.setItem('favorites', JSON.stringify(favorites));
-  // }, [favorites]);
 
   const [selectedMake, setSelectedMake] = useState(null);
 

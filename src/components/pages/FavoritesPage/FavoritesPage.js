@@ -1,17 +1,104 @@
+import React, { useEffect, useState } from 'react';
+import { Toaster } from 'react-hot-toast';
+import { HomeList } from '../CatalogPage/CatalogPageList';
+import { Loader } from '../../LoaderSpinner/LoaderSpinner';
+import Modal from '../../Modal/Modal';
+import { fetchHome } from '../../../api';
 
-const FavoritesPage = () => {
-  
-  const storedFavorites = JSON.parse(localStorage.getItem('favorites')) || [];  
-  
-  console.log('FavoritesPage', { storedFavorites });
+const FavoritesPage = ({ favorites, setFavorites }) => {
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedItemIndex, setSelectedItemIndex] = useState(null);
+  const [loader, setLoader] = useState(true);
+  const [favoriteCars, setFavoriteCars] = useState([]); 
+
+  const [filters, setFilters] = useState({
+    id: '',
+    make: '',
+    price: '',
+    minMileage: null,
+    maxMileage: null,
+    perPage: 24,
+  });
+
+  console.log('1- ', { favorites });
+
+  useEffect(() => {
+    const storedFavorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    setFavorites(storedFavorites);
+  }, [setFavorites]);
+
+  useEffect(() => {
+    
+    const fetchFavoriteCars = async () => {
+      try {
+        const fetchedCars = await Promise.all(
+          favorites.map(async id => {
+            const carData = await fetchHomeById(id); 
+            console.log('2- ', { carData });
+            return carData;
+          })
+        );
+        setFavoriteCars(fetchedCars);
+        setLoader(false);
+      } catch (error) {
+        console.error('Помилка при отриманні даних про улюблені авто:', error);
+        setLoader(false);
+      }
+    };
+
+    fetchFavoriteCars();
+  }, [favorites]);
+
+  const fetchHomeById = async id => {
+    try {
+      console.log('3- ', id);
+      const response = await fetchHome(1, filters);
+      console.log('4- ', { response });
+      const carData = response.find(car => car.id === id); 
+      console.log('5- ', { carData });
+      return carData;
+    } catch (error) {
+      console.error('Помилка при отриманні даних про авто:', error);
+      throw error;
+    }
+  };
+
+  const openModal = index => {
+    setModalVisible(true);
+    setSelectedItemIndex(index);
+  };
+
+  const closeModal = () => {
+    setModalVisible(false);
+    setSelectedItemIndex(null);
+  };
+
   return (
     <div>
-      <h2>Favorite Items</h2>
-      <ul>
-        {storedFavorites.map(item => (
-          <li key={item}>{item}</li>
-        ))}
-      </ul>
+      {loader && <Loader />}
+      
+      {console.log({ favoriteCars })}
+      {favoriteCars.length > 0 ? (
+        <div>         
+
+          <HomeList
+            items={favoriteCars}
+            openModal={openModal}
+            favorites={favorites}
+            setFavorites={setFavorites}
+          />
+
+          {modalVisible && (
+            <Modal
+              item={favoriteCars[selectedItemIndex]} 
+              closeModal={closeModal}
+            />
+          )}
+          <Toaster position="bottom-center" reverseOrder={true} />
+        </div>
+      ) : (
+        <p>No favorite items found</p>
+      )}
     </div>
   );
 };
