@@ -26,7 +26,15 @@ import {
 
 import VerticalTrait from '../img/verticalTrait.svg';
 
-const Modal = ({ item, closeModal }) => {  
+const Modal = ({ item, closeModal }) => { 
+  
+  useEffect(() => {
+    document.body.style.overflow = 'hidden'; // Заблокувати прокрутку при відкритті модального вікна
+
+    return () => {
+      document.body.style.overflow = ''; // Скинути стиль overflow при закритті модального вікна
+    };
+  }, []); 
 
   const getImageSize = url => {
     const img = new Image();

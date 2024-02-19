@@ -28,9 +28,9 @@ export const GlobalStyle = createGlobalStyle`
   }
 
  
-  body.openModal {
+  /* body.openModal {
     overflow: hidden;
-  }
+  } */
 
 
   code {

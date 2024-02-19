@@ -4,7 +4,6 @@ import Select from 'react-select';
 import { fetchHome } from '../../../api';
 import { HomeList } from './CatalogPageList';
 import { Loader } from '../../LoaderSpinner/LoaderSpinner';
-import { GlobalStyle } from '../../GlobalStyle';
 import Modal from '../../../components/Modal/Modal';
 
 import { Container, CatalogPageButton } from './CatalogPage.styled';
@@ -145,9 +144,7 @@ const CatalogPage = ({ favorites, setFavorites }) => {
   }, [filters]);
 
   return (
-    <>
-      <div>
-        <GlobalStyle />
+    <>      
         {loader && <Loader />}
 
         <div>
@@ -212,6 +209,7 @@ const CatalogPage = ({ favorites, setFavorites }) => {
         </div>
 
         <Container>
+          
           <HomeList
             items={trends}
             openModal={openModal}
@@ -228,7 +226,7 @@ const CatalogPage = ({ favorites, setFavorites }) => {
           )}
           <Toaster position="bottom-center" reverseOrder={true} />
         </Container>
-      </div>
+      
     </>
   );
 };
