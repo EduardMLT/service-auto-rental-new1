@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import Select from 'react-select';
 import { fetchHome } from '../../../api';
@@ -6,7 +6,7 @@ import { HomeList } from './CatalogPageList';
 import { Loader } from '../../LoaderSpinner/LoaderSpinner';
 import Modal from '../../../components/Modal/Modal';
 
-import { Container, CatalogPageButton } from './CatalogPage.styled';
+import { FilterDiv, BrandDiv, Container, CatalogPageButton } from './CatalogPage.styled';
 
 const CatalogPage = ({ favorites, setFavorites }) => {  
 
@@ -68,17 +68,38 @@ const CatalogPage = ({ favorites, setFavorites }) => {
       make: selectedOption ? selectedOption.value : '',
     }));
     setTrends([]);
-  };
+  };  
 
   const handleChange = e => {
-    const value = e.target.value;
-    if (!/^\d*$/.test(value)) {
-      setError('Please enter a valid number');
+    const { name, value } = e.target;
+    if (!/^\d*$/.test(value) || value.length > 4) {
+      setError('Please enter a valid number (up to 4 digits)');
     } else {
       setError('');
       setFilters(prevFilters => ({
         ...prevFilters,
-        minMileage: value,
+        [name]: value,
+      }));
+    }
+  };
+
+  const handleBlur = e => {
+    const { name, value } = e.target;
+    if (value === '') {
+      resetFilterField(name);
+    }
+  };
+
+  const resetFilterField = fieldName => {
+    if (fieldName === 'minMileage' || fieldName === 'maxMileage') {
+      setFilters(prevFilters => ({
+        ...prevFilters,
+        [fieldName]: null,
+      }));
+    } else {
+      setFilters(prevFilters => ({
+        ...prevFilters,
+        [fieldName]: '',
       }));
     }
   };
@@ -92,11 +113,13 @@ const CatalogPage = ({ favorites, setFavorites }) => {
     setModalVisible(false);
     setSelectedItemIndex(null);
   };
-
+  
   const loadMore = async () => {
-    setLoader(true);
+    if (!isLastPage) {
+      setLoader(true);
     try {
       const nextPageItems = await fetchHome(page + 1, filters);
+      console.log({ page }, { nextPageItems });
       if (nextPageItems.length === 0) {
         setIsLastPage(true);
       } else {
@@ -107,23 +130,62 @@ const CatalogPage = ({ favorites, setFavorites }) => {
       toast.error(error);
     } finally {
       setLoader(false);
-    }
+      }
+    } 
   };
 
-  const applyFilters = async () => {
+  // const applyFilters = async () => {
+  //   setLoader(true);
+  //   try {
+  //     const filteredItems = await fetchHome(1, filters);
+  //     console.log('CatalogPage - applyFilters ', { filteredItems });
+  //     setTrends(filteredItems);
+  //     setPage(1);
+  //     setIsLastPage(false);
+  //   } catch (error) {
+  //     toast.error(error);
+  //   } finally {
+  //     setLoader(false);
+  //   }
+  // };
+
+
+
+  const applyFilters = useCallback(async () => {
     setLoader(true);
     try {
-      const filteredItems = await fetchHome(1, filters);
+      const minMileageValue =
+        filters.minMileage !== '' && filters.minMileage !== null
+          ? parseInt(filters.minMileage)
+          : null;
+      const maxMileageValue =
+        filters.maxMileage !== '' && filters.maxMileage !== null
+          ? parseInt(filters.maxMileage)
+          : null;
+
+      const updatedFilters = {
+        ...filters,
+        minMileage: minMileageValue,
+        maxMileage: maxMileageValue,
+      };
+
+      const filteredItems = await fetchHome(1, updatedFilters);
       console.log('CatalogPage - applyFilters ', { filteredItems });
       setTrends(filteredItems);
       setPage(1);
       setIsLastPage(false);
+      console.log('CatalogPage - 2 - applyFilters ', { filteredItems });
+
     } catch (error) {
       toast.error(error);
     } finally {
       setLoader(false);
     }
-  };
+  }, [filters]);
+
+  useEffect(() => {
+    applyFilters();
+  }, [filters, applyFilters]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -144,27 +206,28 @@ const CatalogPage = ({ favorites, setFavorites }) => {
   }, [filters]);
 
   return (
-    <>      
-        {loader && <Loader />}
+    <>
+      {loader && <Loader />}
+
+      <FilterDiv>
+        <BrandDiv>
+          <label htmlFor="makeSelect">
+            Car Brand:
+            <Select
+              id="makeSelect"
+              options={formattedOptions(makesArray)}
+              value={formattedOptions(makesArray).find(
+                option => option.value === selectedMake
+              )}
+              onChange={handleMakeChange}
+              isClearable={true}
+              isSearchable={true}
+              placeholder="Select Car Brand"
+            />
+          </label>
+        </BrandDiv>
 
         <div>
-          <div>
-            <label htmlFor="makeSelect">
-              Car Brand:
-              <Select
-                id="makeSelect"
-                options={formattedOptions(makesArray)}
-                value={formattedOptions(makesArray).find(
-                  option => option.value === selectedMake
-                )}
-                onChange={handleMakeChange}
-                isClearable={true}
-                isSearchable={true}
-                placeholder="Select Car Brand"
-              />
-            </label>
-          </div>
-
           <label>
             Price:
             <input
@@ -176,57 +239,63 @@ const CatalogPage = ({ favorites, setFavorites }) => {
                   price: e.target.value,
                 }))
               }
+              onBlur={handleBlur}
             />
           </label>
+        </div>
+
+        <div>
           <label>
             Min Mileage:
             <input
               type="number"
+              name="minMileage"
               value={filters.minMileage}
               onChange={handleChange}
-              min="0"
-              max="9999"
+              onBlur={handleBlur}
+              pattern="[0-9]*"
+              maxLength="4"
             />
             {error && <div style={{ color: 'red' }}>{error}</div>}
           </label>
-          {error && <div style={{ color: 'red' }}>{error}</div>}
+        </div>
+
+        <div>
           <label>
             Max Mileage:
             <input
               type="number"
+              name="maxMileage"
               value={filters.maxMileage}
-              onChange={e =>
-                setFilters(prevFilters => ({
-                  ...prevFilters,
-                  maxMileage: e.target.value,
-                }))
-              }
+              onChange={handleChange}
+              onBlur={handleBlur}
               pattern="[0-9]*"
               maxLength="4"
             />
+            {error && <div style={{ color: 'red' }}>{error}</div>}
           </label>
-          <button onClick={applyFilters}>Search</button>
         </div>
 
-        <Container>
-          
-          <HomeList
-            items={trends}
-            openModal={openModal}
-            favorites={favorites}
-            setFavorites={setFavorites}
-          />
-          {!isLastPage && (
-            <CatalogPageButton onClick={loadMore}>Load More</CatalogPageButton>
-          )}
-          {isLastPage && <p>This is the entire catalog.</p>}
+        <button onClick={applyFilters}>Search</button>
+      </FilterDiv>
 
-          {modalVisible && (
-            <Modal item={trends[selectedItemIndex]} closeModal={closeModal} />
-          )}
-          <Toaster position="bottom-center" reverseOrder={true} />
-        </Container>
-      
+      <Container>
+        <HomeList
+          items={trends}
+          openModal={openModal}
+          favorites={favorites}
+          setFavorites={setFavorites}
+        />
+        {!isLastPage && (
+          <CatalogPageButton onClick={loadMore}>Load More</CatalogPageButton>
+        )}
+        {isLastPage && <p>This is the entire catalog.</p>}
+
+        {modalVisible && (
+          <Modal item={trends[selectedItemIndex]} closeModal={closeModal} />
+        )}
+        <Toaster position="bottom-center" reverseOrder={true} />
+      </Container>
     </>
   );
 };

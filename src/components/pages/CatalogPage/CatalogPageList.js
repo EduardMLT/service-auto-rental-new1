@@ -76,8 +76,8 @@ export const HomeList = ({ items, openModal, favorites, setFavorites }) => {
           const { city, state } = parseAddress(address);
           const isFavorite = favorites.includes(id);
           const heartIcon = isFavorite ? heartFilled : heartOutline;
-          console.log('HomeList-2', { items }, { favorites },
-          );
+          // console.log('HomeList-2', { items }, { favorites },
+          // );
           return (
             <Item key={id}>
               <ItemDiv>

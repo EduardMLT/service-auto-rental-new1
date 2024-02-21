@@ -1,9 +1,18 @@
 import styled from 'styled-components';
 
+export const FilterDiv = styled.div`
+  display: flex;
+`;
+
+export const BrandDiv = styled.div`
+  width: 224px;
+  height:48px;
+`;
+
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;  
+  align-items: center;
 `;
 
 export const CatalogPageButton = styled.button`
@@ -19,3 +28,6 @@ export const CatalogPageButton = styled.button`
     color: #0b44cd;
   }
 `;
+
+
+
