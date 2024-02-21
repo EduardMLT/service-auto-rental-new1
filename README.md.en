@@ -1,0 +1,8 @@
+Congratulations! 
+I want to introduce you to the car rental service. 
+The service allows you to view the cars offered and place an order by phone on a car rental company.
+
+The application consists of 3 pages: 
+1. A home page with a general description of the services provided by the company; 
+2. A page containing cars catalog with configuration information that you can filter by brand, the hourly price of the lease and the number of kilometers that the car drove; 
+3. Page with ads you choose as beloved.
