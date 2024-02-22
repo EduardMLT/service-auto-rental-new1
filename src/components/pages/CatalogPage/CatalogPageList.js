@@ -32,13 +32,6 @@ export const HomeList = ({ items, openModal, favorites, setFavorites }) => {
     setFavorites(storedFavorites);
   }, [setFavorites]);
 
-// useEffect(() => {
-//   const storedFavorites = JSON.parse(localStorage.getItem('favorites')) || [];
-//   if (!favorites || favorites.length === 0) {
-//     setFavorites(storedFavorites);
-//   }
-// }, [favorites, setFavorites]);
-
   const toggleFavorite = id => {
     const updatedFavorites = favorites.includes(id)
       ? favorites.filter(item => item !== id)
@@ -76,8 +69,7 @@ export const HomeList = ({ items, openModal, favorites, setFavorites }) => {
           const { city, state } = parseAddress(address);
           const isFavorite = favorites.includes(id);
           const heartIcon = isFavorite ? heartFilled : heartOutline;
-          // console.log('HomeList-2', { items }, { favorites },
-          // );
+          
           return (
             <Item key={id}>
               <ItemDiv>

@@ -29,10 +29,10 @@ import VerticalTrait from '../img/verticalTrait.svg';
 const Modal = ({ item, closeModal }) => { 
   
   useEffect(() => {
-    document.body.style.overflow = 'hidden'; // Заблокувати прокрутку при відкритті модального вікна
+    document.body.style.overflow = 'hidden'; 
 
     return () => {
-      document.body.style.overflow = ''; // Скинути стиль overflow при закритті модального вікна
+      document.body.style.overflow = ''; 
     };
   }, []); 
 

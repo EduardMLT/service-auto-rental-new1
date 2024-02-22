@@ -6,7 +6,18 @@ import { HomeList } from './CatalogPageList';
 import { Loader } from '../../LoaderSpinner/LoaderSpinner';
 import Modal from '../../../components/Modal/Modal';
 
-import { FilterDiv, BrandDiv, Container, CatalogPageButton } from './CatalogPage.styled';
+import {
+  FilterDiv,
+  LabelBrandDiv,
+  PriceDiv,
+  LabelPrice,
+  InputPrice,
+  LabelMileage,
+  InputMileage,
+  FilterButton,
+  Container,
+  CatalogPageButton,
+} from './CatalogPage.styled';
 
 const CatalogPage = ({ favorites, setFavorites }) => {  
 
@@ -133,24 +144,7 @@ const CatalogPage = ({ favorites, setFavorites }) => {
       }
     } 
   };
-
-  // const applyFilters = async () => {
-  //   setLoader(true);
-  //   try {
-  //     const filteredItems = await fetchHome(1, filters);
-  //     console.log('CatalogPage - applyFilters ', { filteredItems });
-  //     setTrends(filteredItems);
-  //     setPage(1);
-  //     setIsLastPage(false);
-  //   } catch (error) {
-  //     toast.error(error);
-  //   } finally {
-  //     setLoader(false);
-  //   }
-  // };
-
-
-
+  
   const applyFilters = useCallback(async () => {
     setLoader(true);
     try {
@@ -210,7 +204,7 @@ const CatalogPage = ({ favorites, setFavorites }) => {
       {loader && <Loader />}
 
       <FilterDiv>
-        <BrandDiv>
+        <LabelBrandDiv>
           <label htmlFor="makeSelect">
             Car Brand:
             <Select
@@ -225,13 +219,15 @@ const CatalogPage = ({ favorites, setFavorites }) => {
               placeholder="Select Car Brand"
             />
           </label>
-        </BrandDiv>
+        </LabelBrandDiv>
 
-        <div>
-          <label>
+        <PriceDiv>
+          <LabelPrice htmlFor="price">
             Price:
-            <input
+            <InputPrice
               type="text"
+              id="price"
+              name="price"
               value={filters.price}
               onChange={e =>
                 setFilters(prevFilters => ({
@@ -241,14 +237,15 @@ const CatalogPage = ({ favorites, setFavorites }) => {
               }
               onBlur={handleBlur}
             />
-          </label>
-        </div>
+          </LabelPrice>
+        </PriceDiv>
 
         <div>
-          <label>
+          <LabelMileage htmlFor="minMileage">
             Min Mileage:
-            <input
+            <InputMileage
               type="number"
+              id="minMileage"
               name="minMileage"
               value={filters.minMileage}
               onChange={handleChange}
@@ -257,14 +254,15 @@ const CatalogPage = ({ favorites, setFavorites }) => {
               maxLength="4"
             />
             {error && <div style={{ color: 'red' }}>{error}</div>}
-          </label>
+          </LabelMileage>
         </div>
 
         <div>
-          <label>
+          <LabelMileage htmlFor="maxMileage">
             Max Mileage:
-            <input
+            <InputMileage
               type="number"
+              id="maxMileage"
               name="maxMileage"
               value={filters.maxMileage}
               onChange={handleChange}
@@ -273,10 +271,10 @@ const CatalogPage = ({ favorites, setFavorites }) => {
               maxLength="4"
             />
             {error && <div style={{ color: 'red' }}>{error}</div>}
-          </label>
+          </LabelMileage>
         </div>
 
-        <button onClick={applyFilters}>Search</button>
+        <FilterButton onClick={applyFilters}>Search</FilterButton>
       </FilterDiv>
 
       <Container>
