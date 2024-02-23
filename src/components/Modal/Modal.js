@@ -132,8 +132,7 @@ const Modal = ({ item, closeModal }) => {
                 Price: <ModalRentalSpan1>{item.rentalPrice}</ModalRentalSpan1>
               </ModalRentalSpan>
             </ModalRentalDiv2>
-          </ModalRental>
-          {/* <ModalButton onClick={() => {}}>Rental car</ModalButton> */}
+          </ModalRental>          
           <ModalButton href="tel:+380730000000">Rental car</ModalButton>
         </ModalWindow>
       </ModalContent>

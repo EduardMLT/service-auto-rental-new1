@@ -7,7 +7,8 @@ export const FilterDiv = styled.div`
 
 export const LabelBrandDiv = styled.div`
   width: 224px;
-  height:48px;
+  height: 48px;
+  border-radius: 14px;
 `;
 
 export const PriceDiv = styled.div`
@@ -24,6 +25,7 @@ export const InputPrice = styled.input`
   display: block;
   width: 125px;
   height: 48px;
+  border-radius: 14px;
 `;
 
 export const LabelMileage = styled.label`
@@ -31,17 +33,25 @@ export const LabelMileage = styled.label`
   height: 74px;
 `;
 
-export const InputMileage = styled.input`
+export const InputMinMileage = styled.input`
   display: block;
   width: 160px;
   height: 48px;
+  border-radius: 14px 0 0 14px;
+`;
+
+export const InputMaxMileage = styled.input`
+  display: block;
+  width: 160px;
+  height: 48px;
+  border-radius: 0 14px  14px 0;
 `;
 
 export const FilterButton = styled.button`
   width: 136px;
   height: 48px;
   border-radius: 12px;
-  padding: 12px 50px;
+  padding: 14px 44px;
   background: #3470ff;
   font-weight: 600;
   font-size: 14px;

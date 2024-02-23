@@ -13,7 +13,8 @@ import {
   LabelPrice,
   InputPrice,
   LabelMileage,
-  InputMileage,
+  InputMinMileage,
+  InputMaxMileage,
   FilterButton,
   Container,
   CatalogPageButton,
@@ -80,16 +81,21 @@ const CatalogPage = ({ favorites, setFavorites }) => {
     }));
     setTrends([]);
   };  
+  
 
   const handleChange = e => {
     const { name, value } = e.target;
+   
+
     if (!/^\d*$/.test(value) || value.length > 4) {
       setError('Please enter a valid number (up to 4 digits)');
     } else {
       setError('');
-      setFilters(prevFilters => ({
-        ...prevFilters,
-        [name]: value,
+
+   setFilters(prevFilters => ({
+     ...prevFilters,
+     [name]: value,
+
       }));
     }
   };
@@ -243,7 +249,7 @@ const CatalogPage = ({ favorites, setFavorites }) => {
         <div>
           <LabelMileage htmlFor="minMileage">
             Min Mileage:
-            <InputMileage
+            <InputMinMileage
               type="number"
               id="minMileage"
               name="minMileage"
@@ -260,7 +266,7 @@ const CatalogPage = ({ favorites, setFavorites }) => {
         <div>
           <LabelMileage htmlFor="maxMileage">
             Max Mileage:
-            <InputMileage
+            <InputMaxMileage
               type="number"
               id="maxMileage"
               name="maxMileage"
