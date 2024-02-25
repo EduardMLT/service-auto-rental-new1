@@ -12,6 +12,12 @@ export const LabelBrandDiv = styled.div`
   border-radius: 14px;
 `;
 
+export const LabelBrand = styled.label`
+  display: block;
+  height: 74px;
+  position: relative;
+`;
+
 export const FilterText = styled.p`
   font-family: var(--font-family);
   font-weight: 500;
@@ -58,6 +64,7 @@ export const CustomSelect = styled(Select)`
 export const PriceDiv = styled.div`
   margin-right: 18px;
   margin-left: 18px;
+  position: relative;
 `;
 
 export const LabelPrice = styled.label`
@@ -84,12 +91,14 @@ export const DollarSign = styled.span`
   position: absolute;
   top: 57%;
   transform: translateY(-50%);
-  left: 35%;
+  /* left: 35%; */
   font-family: var(--font-family);
   font-weight: 500;
   font-size: 18px;
   line-height: 111%;
   color: #121417;
+  /* left: ${props => props.left}%; */
+  left: ${props => (props.left !== null ? props.left + '%' : '10%')};
 `;
 
 export const InputPrice = styled.input`
@@ -115,7 +124,7 @@ export const InputPrice = styled.input`
   }
 `;
 
-export const LabelMileage = styled.label`
+export const LabelMinMileage = styled.label`
   display: block;
   height: 74px;
   position: relative;
@@ -142,6 +151,12 @@ export const InputMinMileage = styled.input`
   &:hover {
     border: 1px solid #b3b3b3;
   }
+`;
+
+export const LabelMaxMileage = styled.label`
+  display: block;
+  height: 74px;
+  position: relative;
 `;
 
 export const InputMaxMileage = styled.input`

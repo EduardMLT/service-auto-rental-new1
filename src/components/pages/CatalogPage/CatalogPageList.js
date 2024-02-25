@@ -25,7 +25,7 @@ import heartOutline from '../../img/heartOutline.svg';
 
 
 export const HomeList = ({ items, openModal, favorites, setFavorites }) => {
-  console.log('HomeList', { items }, { favorites });
+  // console.log('HomeList', { items }, { favorites });
  
   useEffect(() => {
     const storedFavorites = JSON.parse(localStorage.getItem('favorites')) || [];

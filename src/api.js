@@ -38,7 +38,7 @@ export const fetchHome = async (page = 1, filters) => {
     const startIndex = (page - 1) * filters.perPage;
     const endIndex = startIndex + filters.perPage;
     const currentItems = filteredCars.slice(startIndex, endIndex);
-    console.log('fetchHome - currentItems', currentItems);
+    // console.log('fetchHome - currentItems', currentItems);
     return currentItems;
   } catch (error) {
     console.error('Помилка при отриманні даних:', error);

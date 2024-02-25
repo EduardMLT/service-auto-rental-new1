@@ -7,7 +7,8 @@ import Modal from '../../../components/Modal/Modal';
 
 import {
   FilterDiv,
-  LabelBrandDiv, 
+  LabelBrand,
+  LabelBrandDiv,
   FilterText,
   FilterTextIn,
   DollarSign,
@@ -15,9 +16,10 @@ import {
   PriceDiv,
   LabelPrice,
   InputPrice,
-  LabelMileage,
+  LabelMinMileage,
   MaxMileageSign,
   InputMinMileage,
+  LabelMaxMileage,
   InputMaxMileage,
   FilterButton,
   Container,
@@ -40,8 +42,9 @@ const CatalogPage = ({ favorites, setFavorites }) => {
     maxMileage: null,
     perPage: 12,
   });
-
-  const [error, setError] = useState('');
+  
+  const [minMileageError, setMinMileageError] = useState('');
+  const [maxMileageError, setMaxMileageError] = useState('');
 
   const [makesArray] = useState([
     'Buick',
@@ -84,28 +87,39 @@ const CatalogPage = ({ favorites, setFavorites }) => {
       make: selectedOption ? selectedOption.value : '',
     }));
     setTrends([]);
-  };  
+  };   
   
-
   const handleChange = e => {
     const { name, value } = e.target;
-   
+
+    if (value.length > 4) {
+      return; // Вийти з функції, якщо не введено 4 символи
+    }
 
     if (!/^\d*$/.test(value) || value.length > 4) {
-      setError('Please enter a valid number (up to 4 digits)');
+      if (name === 'minMileage') {
+        setMinMileageError('Number (up to 4 digits)');
+      } else if (name === 'maxMileage') {
+        setMaxMileageError('Number (up to 4 digits)');
+      }
     } else {
-      setError('');
+      if (name === 'minMileage') {
+        setMinMileageError('');
+      } else if (name === 'maxMileage') {
+        setMaxMileageError('');
+      }
 
-   setFilters(prevFilters => ({
-     ...prevFilters,
-     [name]: value,
-
+      setFilters(prevFilters => ({
+        ...prevFilters,
+        [name]: value,
       }));
     }
   };
+    
 
   const handleBlur = e => {
     const { name, value } = e.target;
+    console.log('handleBlur', {name}, {value});
     if (value === '') {
       resetFilterField(name);
     }
@@ -117,12 +131,14 @@ const CatalogPage = ({ favorites, setFavorites }) => {
         ...prevFilters,
         [fieldName]: null,
       }));
+      
     } else {
       setFilters(prevFilters => ({
         ...prevFilters,
         [fieldName]: '',
       }));
     }
+    setInputWidth(null);
   };
 
   const openModal = index => {
@@ -140,7 +156,7 @@ const CatalogPage = ({ favorites, setFavorites }) => {
       setLoader(true);
     try {
       const nextPageItems = await fetchHome(page + 1, filters);
-      console.log({ page }, { nextPageItems });
+      // console.log({ page }, { nextPageItems });
       if (nextPageItems.length === 0) {
         setIsLastPage(true);
       } else {
@@ -174,11 +190,11 @@ const CatalogPage = ({ favorites, setFavorites }) => {
       };
 
       const filteredItems = await fetchHome(1, updatedFilters);
-      console.log('CatalogPage - applyFilters ', { filteredItems });
+      // console.log('CatalogPage - applyFilters ', { filteredItems });
       setTrends(filteredItems);
       setPage(1);
       setIsLastPage(false);
-      console.log('CatalogPage - 2 - applyFilters ', { filteredItems });
+      // console.log('CatalogPage - 2 - applyFilters ', { filteredItems });
 
     } catch (error) {
       toast.error(error);
@@ -207,17 +223,18 @@ const CatalogPage = ({ favorites, setFavorites }) => {
     };
 
     fetchData();
-  }, [filters]);
+  }, [filters]);  
 
-  // const [showPlaceholder, setShowPlaceholder] = useState(true);
+
+const [inputWidth, setInputWidth] = useState(0);
 
   const handleInputChange = e => {
     setFilters(prevFilters => ({
       ...prevFilters,
       price: e.target.value,
-    }));
-    // setShowPlaceholder(e.target.value === 'To $');
-  };
+    })); 
+    setInputWidth(e.target.value.length * 1.8 + 20);
+  };  
 
   return (
     <>
@@ -225,11 +242,13 @@ const CatalogPage = ({ favorites, setFavorites }) => {
 
       <FilterDiv>
         <LabelBrandDiv>
-          <LabelPrice htmlFor="makeSelect">
+          <LabelBrand for="makeSelect">
             <FilterText>Car Brand:</FilterText>
             <CustomSelect
               classNamePrefix="filter"
+              type="text"
               id="makeSelect"
+              name="makeSelect"
               options={formattedOptions(makesArray)}
               value={formattedOptions(makesArray).find(
                 option => option.value === selectedMake
@@ -239,14 +258,14 @@ const CatalogPage = ({ favorites, setFavorites }) => {
               isSearchable={true}
               placeholder="Enter the text"
             />
-          </LabelPrice>
+          </LabelBrand>
         </LabelBrandDiv>
 
         <PriceDiv>
-          <LabelPrice htmlFor="price">
+          <LabelPrice for="price">
             <FilterText>Price/ 1 hour</FilterText>
             <FilterTextIn>To</FilterTextIn>
-            <DollarSign>$</DollarSign>
+            <DollarSign left={inputWidth + 35}>$</DollarSign>
             <InputPrice
               classNamePrefix="filter"
               type="text"
@@ -261,11 +280,11 @@ const CatalogPage = ({ favorites, setFavorites }) => {
         </PriceDiv>
 
         <div>
-          <LabelMileage htmlFor="minMileage">
+          <LabelMinMileage for="minMileage">
             <FilterText>Сar mileage / km</FilterText>
             <FilterTextIn>From</FilterTextIn>
             <InputMinMileage
-              type="number"
+              type="text"
               id="minMileage"
               name="minMileage"
               value={filters.minMileage}
@@ -275,16 +294,18 @@ const CatalogPage = ({ favorites, setFavorites }) => {
               maxLength="4"
               placeholder=""
             />
-            {error && <div style={{ color: 'red' }}>{error}</div>}
-          </LabelMileage>
+            {minMileageError && (
+              <div style={{ color: 'red' }}>{minMileageError}</div>
+            )}
+          </LabelMinMileage>
         </div>
 
         <div>
-          <LabelMileage htmlFor="maxMileage">
+          <LabelMaxMileage for="maxMileage">
             <FilterText> </FilterText>
             <MaxMileageSign>To</MaxMileageSign>
             <InputMaxMileage
-              type="number"
+              type="text"
               id="maxMileage"
               name="maxMileage"
               value={filters.maxMileage}
@@ -294,8 +315,10 @@ const CatalogPage = ({ favorites, setFavorites }) => {
               maxLength="4"
               placeholder=""
             />
-            {error && <div style={{ color: 'red' }}>{error}</div>}
-          </LabelMileage>
+            {maxMileageError && (
+              <div style={{ color: 'red' }}>{maxMileageError}</div>
+            )}
+          </LabelMaxMileage>
         </div>
 
         <FilterButton onClick={applyFilters}>Search</FilterButton>
