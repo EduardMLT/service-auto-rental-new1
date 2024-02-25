@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
-import Select from 'react-select';
 import { fetchHome } from '../../../api';
 import { HomeList } from './CatalogPageList';
 import { Loader } from '../../LoaderSpinner/LoaderSpinner';
@@ -8,7 +7,9 @@ import Modal from '../../../components/Modal/Modal';
 
 import {
   FilterDiv,
-  LabelBrandDiv,
+  LabelBrandDiv, 
+  FilterText,
+  CustomSelect,
   PriceDiv,
   LabelPrice,
   InputPrice,
@@ -211,9 +212,10 @@ const CatalogPage = ({ favorites, setFavorites }) => {
 
       <FilterDiv>
         <LabelBrandDiv>
-          <label htmlFor="makeSelect">
-            Car Brand:
-            <Select
+          <LabelPrice htmlFor="makeSelect">
+            <FilterText>Car Brand:</FilterText>
+            <CustomSelect
+              classNamePrefix="filter"
               id="makeSelect"
               options={formattedOptions(makesArray)}
               value={formattedOptions(makesArray).find(
@@ -222,15 +224,16 @@ const CatalogPage = ({ favorites, setFavorites }) => {
               onChange={handleMakeChange}
               isClearable={true}
               isSearchable={true}
-              placeholder="Select Car Brand"
+              placeholder="Enter the text"
             />
-          </label>
+          </LabelPrice>
         </LabelBrandDiv>
 
         <PriceDiv>
           <LabelPrice htmlFor="price">
-            Price:
+            <FilterText>Price/ 1 hour</FilterText>
             <InputPrice
+              classNamePrefix="filter"
               type="text"
               id="price"
               name="price"
@@ -242,13 +245,14 @@ const CatalogPage = ({ favorites, setFavorites }) => {
                 }))
               }
               onBlur={handleBlur}
+              placeholder="To $"
             />
           </LabelPrice>
         </PriceDiv>
 
         <div>
           <LabelMileage htmlFor="minMileage">
-            Min Mileage:
+            <FilterText>Сar mileage / km</FilterText>
             <InputMinMileage
               type="number"
               id="minMileage"
@@ -258,6 +262,7 @@ const CatalogPage = ({ favorites, setFavorites }) => {
               onBlur={handleBlur}
               pattern="[0-9]*"
               maxLength="4"
+              placeholder="From"
             />
             {error && <div style={{ color: 'red' }}>{error}</div>}
           </LabelMileage>
@@ -265,7 +270,7 @@ const CatalogPage = ({ favorites, setFavorites }) => {
 
         <div>
           <LabelMileage htmlFor="maxMileage">
-            Max Mileage:
+            <FilterText> </FilterText>
             <InputMaxMileage
               type="number"
               id="maxMileage"
@@ -275,6 +280,7 @@ const CatalogPage = ({ favorites, setFavorites }) => {
               onBlur={handleBlur}
               pattern="[0-9]*"
               maxLength="4"
+              placeholder="To"
             />
             {error && <div style={{ color: 'red' }}>{error}</div>}
           </LabelMileage>

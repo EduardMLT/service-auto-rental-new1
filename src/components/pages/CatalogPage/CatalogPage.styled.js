@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import Select from 'react-select';
 
 export const FilterDiv = styled.div`
   display: flex;
@@ -7,8 +8,51 @@ export const FilterDiv = styled.div`
 
 export const LabelBrandDiv = styled.div`
   width: 224px;
-  height: 48px;
+  height: 74px;
   border-radius: 14px;
+`;
+
+export const FilterText = styled.p`
+  font-family: var(--font-family);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 129%;
+  color: #8a8a89;
+`;
+
+export const CustomSelect = styled(Select)`
+  .filter__placeholder {
+    font-family: var(--font-family);
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 111%;
+    color: #121417;
+  }
+
+  .filter__control {
+    height: 48px;
+    width: 224px;
+    border-radius: 14px;
+    background: #f7f7fb;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    border: none;
+
+    &:hover,
+    &:focus {
+      border: 1px solid #b3b3b3;
+    }
+  }
+
+  .filter__value-container {
+    height: 38px;
+    font-size: 22px;
+  }
+
+  .filter__input {
+    font-size: 12px;
+  }
 `;
 
 export const PriceDiv = styled.div`
@@ -18,7 +62,7 @@ export const PriceDiv = styled.div`
 
 export const LabelPrice = styled.label`
   display: block;
-  height: 74px;  
+  height: 74px;
 `;
 
 export const InputPrice = styled.input`
@@ -26,10 +70,26 @@ export const InputPrice = styled.input`
   width: 125px;
   height: 48px;
   border-radius: 14px;
+  background: #f7f7fb;
+  cursor: pointer;
+  border: none;
+  outline: none;
+
+  &::placeholder {
+    font-family: var(--font-family);
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 111%;
+    color: #121417;
+  }
+
+  &:hover {
+    border: 1px solid #b3b3b3;
+  }
 `;
 
 export const LabelMileage = styled.label`
-  display: block;  
+  display: block;
   height: 74px;
 `;
 
@@ -38,13 +98,46 @@ export const InputMinMileage = styled.input`
   width: 160px;
   height: 48px;
   border-radius: 14px 0 0 14px;
+  background: #f7f7fb;
+  cursor: pointer;
+  border: none;
+  outline: none;
+
+  &::placeholder {
+    font-family: var(--font-family);
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 111%;
+    color: #121417;
+  }
+
+  &:hover {
+    border: 1px solid #b3b3b3;
+  }
 `;
 
 export const InputMaxMileage = styled.input`
   display: block;
   width: 160px;
   height: 48px;
-  border-radius: 0 14px  14px 0;
+  border-radius: 0 14px 14px 0;
+  margin-top: 18px;
+  background: #f7f7fb;
+  cursor: pointer;
+  border: none;
+  outline: none;
+
+  &::placeholder {
+    font-family: var(--font-family);
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 111%;
+    color: #121417;
+  }
+
+  &:hover {
+    border: 1px solid #b3b3b3;
+  }
 `;
 
 export const FilterButton = styled.button`
@@ -57,7 +150,7 @@ export const FilterButton = styled.button`
   font-size: 14px;
   line-height: 143%;
   color: #fff;
-  margin-top: 18px;  
+  margin-top: 18px;
   margin-left: 18px;
 
   &:hover {
@@ -78,12 +171,9 @@ export const CatalogPageButton = styled.button`
   line-height: 150%;
   text-decoration: underline;
   text-decoration-skip-ink: none;
-  color: #3470ff;  
+  color: #3470ff;
 
   &:hover {
     color: #0b44cd;
   }
 `;
-
-
-
