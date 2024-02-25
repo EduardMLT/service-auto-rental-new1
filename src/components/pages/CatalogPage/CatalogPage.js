@@ -9,11 +9,14 @@ import {
   FilterDiv,
   LabelBrandDiv, 
   FilterText,
+  FilterTextIn,
+  DollarSign,
   CustomSelect,
   PriceDiv,
   LabelPrice,
   InputPrice,
   LabelMileage,
+  MaxMileageSign,
   InputMinMileage,
   InputMaxMileage,
   FilterButton,
@@ -206,6 +209,16 @@ const CatalogPage = ({ favorites, setFavorites }) => {
     fetchData();
   }, [filters]);
 
+  // const [showPlaceholder, setShowPlaceholder] = useState(true);
+
+  const handleInputChange = e => {
+    setFilters(prevFilters => ({
+      ...prevFilters,
+      price: e.target.value,
+    }));
+    // setShowPlaceholder(e.target.value === 'To $');
+  };
+
   return (
     <>
       {loader && <Loader />}
@@ -232,20 +245,17 @@ const CatalogPage = ({ favorites, setFavorites }) => {
         <PriceDiv>
           <LabelPrice htmlFor="price">
             <FilterText>Price/ 1 hour</FilterText>
+            <FilterTextIn>To</FilterTextIn>
+            <DollarSign>$</DollarSign>
             <InputPrice
               classNamePrefix="filter"
               type="text"
               id="price"
               name="price"
               value={filters.price}
-              onChange={e =>
-                setFilters(prevFilters => ({
-                  ...prevFilters,
-                  price: e.target.value,
-                }))
-              }
+              onChange={handleInputChange}
               onBlur={handleBlur}
-              placeholder="To $"
+              placeholder=""
             />
           </LabelPrice>
         </PriceDiv>
@@ -253,6 +263,7 @@ const CatalogPage = ({ favorites, setFavorites }) => {
         <div>
           <LabelMileage htmlFor="minMileage">
             <FilterText>Сar mileage / km</FilterText>
+            <FilterTextIn>From</FilterTextIn>
             <InputMinMileage
               type="number"
               id="minMileage"
@@ -262,7 +273,7 @@ const CatalogPage = ({ favorites, setFavorites }) => {
               onBlur={handleBlur}
               pattern="[0-9]*"
               maxLength="4"
-              placeholder="From"
+              placeholder=""
             />
             {error && <div style={{ color: 'red' }}>{error}</div>}
           </LabelMileage>
@@ -271,6 +282,7 @@ const CatalogPage = ({ favorites, setFavorites }) => {
         <div>
           <LabelMileage htmlFor="maxMileage">
             <FilterText> </FilterText>
+            <MaxMileageSign>To</MaxMileageSign>
             <InputMaxMileage
               type="number"
               id="maxMileage"
@@ -280,7 +292,7 @@ const CatalogPage = ({ favorites, setFavorites }) => {
               onBlur={handleBlur}
               pattern="[0-9]*"
               maxLength="4"
-              placeholder="To"
+              placeholder=""
             />
             {error && <div style={{ color: 'red' }}>{error}</div>}
           </LabelMileage>

@@ -63,6 +63,33 @@ export const PriceDiv = styled.div`
 export const LabelPrice = styled.label`
   display: block;
   height: 74px;
+  position: relative;
+  
+`;
+
+export const FilterTextIn = styled.span`
+  position: absolute;
+  top: 57%;
+  
+  transform: translateY(-50%);
+  left: 18px;
+  font-family: var(--font-family);
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 111%;
+  color: #121417;
+`;
+
+export const DollarSign = styled.span`
+  position: absolute;
+  top: 57%;
+  transform: translateY(-50%);
+  left: 35%;
+  font-family: var(--font-family);
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 111%;
+  color: #121417;
 `;
 
 export const InputPrice = styled.input`
@@ -75,13 +102,13 @@ export const InputPrice = styled.input`
   border: none;
   outline: none;
 
-  &::placeholder {
-    font-family: var(--font-family);
-    font-weight: 500;
-    font-size: 18px;
-    line-height: 111%;
-    color: #121417;
-  }
+  font-family: var(--font-family);
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 111%;
+  color: #121417;
+
+  padding-left: 40px;  
 
   &:hover {
     border: 1px solid #b3b3b3;
@@ -91,6 +118,7 @@ export const InputPrice = styled.input`
 export const LabelMileage = styled.label`
   display: block;
   height: 74px;
+  position: relative;
 `;
 
 export const InputMinMileage = styled.input`
@@ -103,13 +131,13 @@ export const InputMinMileage = styled.input`
   border: none;
   outline: none;
 
-  &::placeholder {
-    font-family: var(--font-family);
-    font-weight: 500;
-    font-size: 18px;
-    line-height: 111%;
-    color: #121417;
-  }
+  font-family: var(--font-family);
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 111%;
+  color: #121417;
+
+  padding-left: 70px;
 
   &:hover {
     border: 1px solid #b3b3b3;
@@ -117,6 +145,7 @@ export const InputMinMileage = styled.input`
 `;
 
 export const InputMaxMileage = styled.input`
+  
   display: block;
   width: 160px;
   height: 48px;
@@ -125,19 +154,31 @@ export const InputMaxMileage = styled.input`
   background: #f7f7fb;
   cursor: pointer;
   border: none;
-  outline: none;
+  outline: none;  
 
-  &::placeholder {
-    font-family: var(--font-family);
-    font-weight: 500;
-    font-size: 18px;
-    line-height: 111%;
-    color: #121417;
-  }
+  font-family: var(--font-family);
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 111%;
+  color: #121417;
+
+  padding-left: 45px;
 
   &:hover {
     border: 1px solid #b3b3b3;
   }
+`;
+
+export const MaxMileageSign = styled.span`
+  position: absolute;
+  top: 33%;
+  transform: translateY(-50%);
+  left: 18px;
+  font-family: var(--font-family);
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 111%;
+  color: #121417;
 `;
 
 export const FilterButton = styled.button`
