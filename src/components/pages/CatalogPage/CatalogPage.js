@@ -120,7 +120,7 @@ const CatalogPage = ({ favorites, setFavorites }) => {
 
   const handleBlur = e => {
     const { name, value } = e.target;
-    console.log('handleBlur', {name}, {value});
+    
     if (value === '') {
       resetFilterField(name);
     }

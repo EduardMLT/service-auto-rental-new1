@@ -9,7 +9,7 @@ const FavoritesPage = ({ favorites, setFavorites }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedItemIndex, setSelectedItemIndex] = useState(null);
   const [loader, setLoader] = useState(true);
-  const [favoriteCars, setFavoriteCars] = useState([]); 
+  const [favoriteCars, setFavoriteCars] = useState([]);
 
   const [filters] = useState({
     id: '',
@@ -19,10 +19,6 @@ const FavoritesPage = ({ favorites, setFavorites }) => {
     maxMileage: null,
     perPage: 32,
   });
-
-  console.log('1- ', { favorites });
-
-  
 
   useEffect(() => {
     const storedFavorites = JSON.parse(localStorage.getItem('favorites')) || [];
@@ -35,7 +31,7 @@ const FavoritesPage = ({ favorites, setFavorites }) => {
         const fetchedCars = await Promise.all(
           favorites.map(async id => {
             const carData = await fetchHomeById(id);
-            console.log('2- ', { carData });
+            
             return carData;
           })
         );
@@ -50,21 +46,20 @@ const FavoritesPage = ({ favorites, setFavorites }) => {
     fetchFavoriteCars();
     // eslint-disable-next-line
   }, [favorites]);
-  
+
   const fetchHomeById = async id => {
     try {
-      console.log('3- ', id);
       const response = await fetchHome(1, filters);
-      console.log('4- ', { response });
+
       const carData = response.find(car => car.id === id);
-      console.log('5- ', { carData });
+
       return carData;
     } catch (error) {
       console.error('Помилка при отриманні даних про авто:', error);
       throw error;
     }
   };
-  
+
   const openModal = index => {
     setModalVisible(true);
     setSelectedItemIndex(index);
@@ -78,11 +73,9 @@ const FavoritesPage = ({ favorites, setFavorites }) => {
   return (
     <div>
       {loader && <Loader />}
-      
-      {console.log({ favoriteCars })}
-      {favoriteCars.length > 0 ? (
-        <div>         
 
+      {favoriteCars.length > 0 ? (
+        <div>
           <HomeList
             items={favoriteCars}
             openModal={openModal}
@@ -92,7 +85,7 @@ const FavoritesPage = ({ favorites, setFavorites }) => {
 
           {modalVisible && (
             <Modal
-              item={favoriteCars[selectedItemIndex]} 
+              item={favoriteCars[selectedItemIndex]}
               closeModal={closeModal}
             />
           )}
