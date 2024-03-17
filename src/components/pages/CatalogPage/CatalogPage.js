@@ -67,6 +67,8 @@ const CatalogPage = ({ favorites, setFavorites }) => {
     'Chevrolet',
     'Kia',
     'Land Rover',
+    'Lexus',
+    'Porsche',
   ]);
 
   useEffect(() => {

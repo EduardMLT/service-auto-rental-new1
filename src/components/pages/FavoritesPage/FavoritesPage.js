@@ -17,7 +17,7 @@ const FavoritesPage = ({ favorites, setFavorites }) => {
     price: '',
     minMileage: null,
     maxMileage: null,
-    perPage: 24,
+    perPage: 32,
   });
 
   console.log('1- ', { favorites });
