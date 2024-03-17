@@ -66,8 +66,13 @@ const Modal = ({ item, closeModal }) => {
 
   const { city, state } = parseAddress(item.address);
 
+  const mileageNumber = parseInt(item.mileage, 10);
+  const formattedMileage = new Intl.NumberFormat('en-US').format(mileageNumber);
+
+  const formattedPrice = item.rentalPrice.replace('$', '') + '$';
+
   return (
-    <ModalOverlay>      
+    <ModalOverlay>
       <ModalContent>
         <ModalWindow>
           <ModalClose onClick={closeModal}>&times;</ModalClose>
@@ -118,21 +123,20 @@ const Modal = ({ item, closeModal }) => {
           <ModalRental>
             <ModalH3acc>Rental Conditions:</ModalH3acc>
             <ModalRentalDiv1>
-              <ModalRentalSpan>
-                {minimumAge} : {ageValue}
-              </ModalRentalSpan>
+              <ModalRentalSpan>{minimumAge}:</ModalRentalSpan>
+              <ModalRentalSpan1>{ageValue}</ModalRentalSpan1>
               <ModalRentalSpan>{conditionsArray[1]}</ModalRentalSpan>
             </ModalRentalDiv1>
             <ModalRentalDiv2>
               <ModalRentalSpan>{conditionsArray[2]}</ModalRentalSpan>
               <ModalRentalSpan>
-                Mileage: <ModalRentalSpan1>{item.mileage}</ModalRentalSpan1>
+                Mileage: <ModalRentalSpan1>{formattedMileage}</ModalRentalSpan1>
               </ModalRentalSpan>
               <ModalRentalSpan>
-                Price: <ModalRentalSpan1>{item.rentalPrice}</ModalRentalSpan1>
+                Price: <ModalRentalSpan1>{formattedPrice}</ModalRentalSpan1>
               </ModalRentalSpan>
             </ModalRentalDiv2>
-          </ModalRental>          
+          </ModalRental>
           <ModalButton href="tel:+380730000000">Rental car</ModalButton>
         </ModalWindow>
       </ModalContent>

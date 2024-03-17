@@ -153,6 +153,9 @@ export const ModalRentalSpan = styled.span`
 export const ModalRentalSpan1 = styled.span`
   font-weight: 600;
   color: #3470ff;
+  font-size: 12px;
+  line-height: 150%;
+  letter-spacing: -0.02em;
 `;
 
 export const ModalRentalDiv1 = styled.div`

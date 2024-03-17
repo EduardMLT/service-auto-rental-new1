@@ -93,7 +93,7 @@ const CatalogPage = ({ favorites, setFavorites }) => {
     const { name, value } = e.target;
 
     if (value.length > 4) {
-      return; // Вийти з функції, якщо не введено 4 символи
+      return; 
     }
 
     if (!/^\d*$/.test(value) || value.length > 4) {
@@ -114,8 +114,7 @@ const CatalogPage = ({ favorites, setFavorites }) => {
         [name]: value,
       }));
     }
-  };
-    
+  };     
 
   const handleBlur = e => {
     const { name, value } = e.target;
@@ -235,6 +234,11 @@ const [inputWidth, setInputWidth] = useState(0);
     })); 
     setInputWidth(e.target.value.length * 1.8 + 20);
   };  
+
+
+// const formattedMinMileage = new Intl.NumberFormat('en-US').format(
+//   parseInt(filters.minMileage, 10)
+// );
 
   return (
     <>
